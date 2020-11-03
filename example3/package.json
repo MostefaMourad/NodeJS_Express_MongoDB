@@ -1,0 +1,14 @@
+{
+  "name": "example3",
+  "version": "1.0.0",
+  "description": "Express package",
+  "main": "index.js",
+  "author": "Mostefa Mourad",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node index"
+  }
+}

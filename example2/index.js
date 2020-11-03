@@ -8,13 +8,12 @@ const port = 3000;
 const server = http.createServer((req,res) => {
     console.log(req.url + '|' + req.method);
     res.statusCode = 200;
-    /*res.setHeader('Content-Type','text/html');
+    /* res.setHeader('Content-Type','text/html');
     res.end('<html> <body> <h1> Hello , world </h1> </body> </html>');*/
     if(req.method == 'GET'){
         var fileUrl ;
         if(req.url == '/') fileUrl = '/index.html'
-        else fileUrl = req.url
-
+        else fileUrl = req.url;
         var filePath = path.resolve("./public"+fileUrl);
         const fileExt = path.extname(filePath);
         if(fileExt == ".html"){
