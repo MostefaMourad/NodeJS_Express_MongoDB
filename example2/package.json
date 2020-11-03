@@ -1,0 +1,11 @@
+{
+  "name": "example2",
+  "version": "1.0.0",
+  "description": "node http module example",
+  "main": "index.js",
+  "author": "Mostefa Mourad",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index"
+  }
+}
