@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const dishRouter = require('./routes/dishRouter');
 const leaderRouter = require('./routes/leaderRouter');
-const promotionRouter = require('./routes/promotionRouter');
+const promotionRouter = require('./routes/promoRouter');
 
 const port = 3000;
 const hostname = "localhost";
