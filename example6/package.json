@@ -1,0 +1,15 @@
+{
+  "name": "example6",
+  "version": "1.0.0",
+  "description": "this is a mongodb app",
+  "main": "index.js",
+  "author": "Mostefa Mourad",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "mongodb": "^3.6.2"
+  }
+}
