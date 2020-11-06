@@ -1,0 +1,15 @@
+{
+  "name": "example7",
+  "version": "1.0.0",
+  "description": "Mongoose application",
+  "main": "index.js",
+  "author": "Mostefa Mourad",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "mongoose": "^5.10.12"
+  }
+}
