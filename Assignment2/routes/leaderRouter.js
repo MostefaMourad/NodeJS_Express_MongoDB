@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Leaders = require('../models/dishes');
+const Leaders = require('../models/leaders');
 
 const leaderRouter = express.Router();
 
