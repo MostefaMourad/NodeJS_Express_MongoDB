@@ -8,6 +8,7 @@ var localStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 /* la Stratégie local */
 
 module.exports.local = passport.use(new localStrategy(User.authenticate()));
@@ -30,6 +31,18 @@ module.exports.jwtPassport = passport.use(new JwtStrategy(opts,(jwt_payload,done
     })
     .catch((err) => done(err,false));
 }));
+
+/* Verifying if the User is an Admin */
+
+module.exports.verifyAdmin = ((req,res,next) => {
+    if(req.user.admin === true){
+        next();
+    }else{
+        res.statusCode = 403 ;
+        err = new Error("You are not authorized to perform this operation!");
+        next(err);
+    }
+});
 
 module.exports.verifyUser = passport.authenticate('jwt',{session:false});
 
