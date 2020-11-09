@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Leaders = require('../models/leaders');
+const authenticate = require('../middleware/authenticate');
 
 const leaderRouter = express.Router();
 

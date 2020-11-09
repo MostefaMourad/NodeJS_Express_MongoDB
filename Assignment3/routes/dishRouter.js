@@ -94,10 +94,11 @@ dishRouter.route('/:dishId/comments')
     },(err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser,(req, res, next) => {
     Dishes.findById(req.params.dishId)
     .then( (dish) => {
         if(dish != null){
+            req.body.author = req.user._id;
             dish.comments.push(req.body);
             dish.save().then(  () => {
                 res.statusCode = 201;
@@ -113,7 +114,7 @@ dishRouter.route('/:dishId/comments')
     },(err) => next(err))
     .catch((err) => next(err));
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /dishes' + req.params.dishId + '/comments');
 })
@@ -163,25 +164,32 @@ dishRouter.route('/:dishId/comments/:commentId')
     },(err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser,(req, res, next) => {
     res.statusCode = 403;
     res.end('POST operation not supported on /dishes/'+req.params.dishId+'/comments/'+req.params.commentId);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser,(req, res, next) => {
     Dishes.findById(req.params.dishId)
     .then( (dish) => {
         if((dish != null) && (dish.comments.id(req.params.commentId) != null)){
-            if(req.body.rating){
-                dish.comments.id(req.params.commentId).rating = req.body.rating;
+            if((dish.comments.id(req.params.commentId).author).equals(req.user._id)){ // check if the user is the owner of the comment
+                if(req.body.rating){
+                    dish.comments.id(req.params.commentId).rating = req.body.rating;
+                }
+                if(req.body.comment){
+                    dish.comments.id(req.params.commentId).comment = req.body.comment;
+                }
+                dish.save().then(  () => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type','application/json');
+                    res.json(dish);
+                },(err) => next(err));
             }
-            if(req.body.comment){
-                dish.comments.id(req.params.commentId).comment = req.body.comment;
+            else{
+                res.statusCode = 403 ;
+                err = new Error("You are not authorized to perform this operation!");
+                next(err);
             }
-            dish.save().then(  () => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type','application/json');
-                res.json(dish);
-            },(err) => next(err));
         }
         else{
             if(dish == null){
@@ -197,17 +205,23 @@ dishRouter.route('/:dishId/comments/:commentId')
     },(err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser,(req, res, next) => {
     Dishes.findById(req.params.dishId)
     .then( (dish) => {
         if((dish != null) && (dish.comments.id(req.params.commentId) != null)){
-            dish.comments.id(req.params.commentId).remove();
-            dish.save().then(  () => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type','application/json');
-                res.json(dish);
-            },(err) => next(err));
-            
+            if((dish.comments.id(req.params.commentId).author).equals(req.user._id)){ // check if the user is the owner of the comment
+                dish.comments.id(req.params.commentId).remove();
+                dish.save().then(  () => {
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type','application/json');
+                    res.json(dish);
+                },(err) => next(err));   
+            }
+            else{
+                res.statusCode = 403 ;
+                err = new Error("You are not authorized to perform this operation!");
+                next(err);
+            }
         }
         else{
             if(dish == null){

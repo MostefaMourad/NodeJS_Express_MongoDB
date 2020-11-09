@@ -5,6 +5,7 @@ var User = require('../models/users');
 var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var localStrategy = require('passport-local').Strategy;
+var Dishes = require('../models/dishes');
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

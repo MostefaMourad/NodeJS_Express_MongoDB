@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Promotions = require('../models/promotions');
 const promotionRouter = express.Router();
+const authenticate = require('../middleware/authenticate');
 
 promotionRouter.use(bodyParser.json());
 
