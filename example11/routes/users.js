@@ -40,4 +40,13 @@ router.post('/login',cors.corsWithOPtions,passport.authenticate('local'),(req,re
   res.json({sucess:true,token:authenticate.getToken({_id:req.user._id}),status:'You are logged in'});
 });
 
+router.get('/facebook/token',passport.authenticate('facebook-token'),
+      (req,res) => {
+        if(req.user){
+          res.statusCode = 200 ;
+          res.setHeader('Content-Type','application/json');
+          res.json({sucess:true,token:authenticate.getToken({_id:req.user._id}),status:'You are logged in'});
+        }
+});
+
 module.exports = router;
